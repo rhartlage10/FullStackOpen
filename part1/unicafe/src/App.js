@@ -8,26 +8,31 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
-// display feedback stats
+// displays a single stat
+const Statistic = (props) => {
+  return (
+    // <tr>
+      <p>{props.text}: {props.value}</p>
+    // {/* </tr> */}
+  )
+}
+
+// displays feedback stats
 const Statistics = ({good, neutral, bad}) => {
   let totalCount = good + neutral + bad
   if (totalCount === 0) {
     return (
-      <div>
-        <h2>Statistics</h2>
-        <p>No feedback given</p>
-      </div>
+      <p>No feedback given</p>
     )
   } else {
     return (
       <div>
-        <h2>Statistics</h2>
-        <p>good: {good}</p>
-        <p>neutral: {neutral}</p>
-        <p>bad: {bad}</p>
-        <p>all: {totalCount}</p>
-        <p>average: {((good*1)+(bad*-1))/totalCount}</p>
-        <p>positive: {(good / totalCount) * 100} %</p>
+        <Statistic text="good" value={good}/>
+        <Statistic text="neutral" value={neutral}/>
+        <Statistic text="bad" value={bad}/>
+        <Statistic text="all" value={totalCount}/>
+        <Statistic text="average" value={(good - bad)/totalCount}/>
+        <Statistic text="positive" value={(good / totalCount) * 100 + "%"}/>
       </div>
     )
   }
@@ -58,6 +63,7 @@ const App = () => {
         handleClick={badFeedback}
         text='bad'
       />
+      <h2>Statistics</h2>
       <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
