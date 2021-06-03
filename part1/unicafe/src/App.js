@@ -11,9 +11,10 @@ const Button = ({ handleClick, text }) => {
 // displays a single stat
 const Statistic = (props) => {
   return (
-    // <tr>
-      <p>{props.text}: {props.value}</p>
-    // {/* </tr> */}
+    <tr>
+      <td>{props.text}</td> 
+      <td>{props.value}</td>
+   </tr>
   )
 }
 
@@ -26,14 +27,16 @@ const Statistics = ({good, neutral, bad}) => {
     )
   } else {
     return (
-      <div>
-        <Statistic text="good" value={good}/>
-        <Statistic text="neutral" value={neutral}/>
-        <Statistic text="bad" value={bad}/>
-        <Statistic text="all" value={totalCount}/>
-        <Statistic text="average" value={(good - bad)/totalCount}/>
-        <Statistic text="positive" value={(good / totalCount) * 100 + "%"}/>
-      </div>
+      <table>
+        <tbody>
+          <Statistic text="good" value={good}/>
+          <Statistic text="neutral" value={neutral}/>
+          <Statistic text="bad" value={bad}/>
+          <Statistic text="all" value={totalCount}/>
+          <Statistic text="average" value={(good - bad)/totalCount}/>
+          <Statistic text="positive" value={(good / totalCount) * 100 + "%"}/>
+        </tbody>
+      </table>
     )
   }
 }

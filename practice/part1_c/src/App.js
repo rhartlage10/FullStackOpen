@@ -64,7 +64,8 @@ const App = () => {
       <Button
         handleClick={decreaseByOne}
         text='minus'
-      />           
+      /> 
+                
     </div>
   )
 }
