@@ -1,30 +1,53 @@
 import React from 'react'
 
-const Country = ({ country }) => <p>{country}</p>
+const DisplayCountry =({ country }) => {
+    return(
+    <div>
+        <h2>{country.name}</h2>
+        <p>Capital {country.capital}</p>
+        <p>Population {country.population}</p>
 
-const Countries = ({ countries, filter }) => {
+        <h3>Languages</h3>
+        <ul>
+            {country.languages.map(lang => <li key={lang.name}>{lang.name}</li>)}
+        </ul>
+
+        <img src={country.flag} alt="flag" height='100px' width='150px'/>
+    </div>)
+}
+
+const Countries = ({ countries, filter, showCountry, setShowCountry }) => {
+
+    const display = (country) => {
+        return <DisplayCountry country={country} />
+    }
+
+    const doNothing = () => {}
 
     const filtered = countries.filter(country => country.name.toLowerCase().includes(filter.toLowerCase()))
 
     if (filtered.length === 0) {
         return <div>No matching countries, specify another filter</div>
     } else if (filtered.length === 1) {
-        return (
-            <div>
-                <h1>{filtered[0].name}</h1>
-                <p>capital {filtered[0].capital}</p>
-                <p>population {filtered[0].population}</p>
-                <h2>languages</h2>
-                <ul>
-                 {filtered[0].languages.map(language => <li key={language.name}>{language.name}</li>)}
-                </ul>
-                <img src={filtered[0].flag} alt="flag" height='100px' width='150px'/>
-            </div>
-        )
+        return display(filtered[0])
     } else if (filtered.length > 1 && filtered.length <= 10) {
+        let i = 0;
         return  (
             <div>
-               { filtered.map(country => <Country country={country.name} key={country.name} />) }
+                {filtered.map(country => 
+                    <div key={country.name}> 
+                        {country.name}
+                        <button key={i++} onClick={() => {
+                            setShowCountry(country.name)
+                        }}> 
+                        show
+                        </button>
+                         { showCountry === country.name
+                         ? display(country, setShowCountry) 
+                         : doNothing()
+                         }
+            
+                    </div>)}
             </div>
         )
     } else {
