@@ -3,30 +3,28 @@ import phonebookServices from './services/phonebook'
 
 const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum }) => {
     const addPerson = (event) => {
-        let nameAlreadyAdded = false
     
         event.preventDefault();
-        const personObj = {
-          name: newName,
-          number: newNum
-        }
+        const result = persons.find(person => person.name === newName)
     
-        let i = 0;
-        for (i; i < persons.length ; i++) {
-          if (persons[i].name === newName) {
-            alert(`${newName} is already added to phonebook`)
-            nameAlreadyAdded = true
+        if (result === undefined) {
+            const personObj = { name: newName, number: newNum }
+
+            phonebookServices.create(personObj)
+            setPersons(persons.concat(personObj))
+        } else {
+          if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
+            const personObj = {...result, number: newNum}
+
+            phonebookServices.updatePerson(personObj)
+            setPersons(persons.map(person => person.id !== personObj.id
+              ? person
+              : {...person, number: newNum})
+            )
           }
-        }
-    
-        if (nameAlreadyAdded === false) {
-          setPersons(persons.concat(personObj))
-
-          phonebookServices.create(personObj)
-
-          setName('')
-          setNum('')
-        }
+        }  
+        setName('')
+        setNum('')
       }
     
       const handleNameChange = (event) => {
