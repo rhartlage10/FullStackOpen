@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import phonebookServices from './services/phonebook'
 
 const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum }) => {
     const addPerson = (event) => {
@@ -22,8 +22,7 @@ const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum }) =
         if (nameAlreadyAdded === false) {
           setPersons(persons.concat(personObj))
 
-          axios.post('http://localhost:3001/persons', personObj)
-          .then(response => {console.log(response.data)})
+          phonebookServices.create(personObj)
 
           setName('')
           setNum('')
