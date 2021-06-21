@@ -1,7 +1,7 @@
 import React from 'react'
 import phonebookServices from './services/phonebook'
 
-const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum }) => {
+const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum, setNotification, setNoError }) => {
     const addPerson = (event) => {
     
         event.preventDefault();
@@ -12,6 +12,8 @@ const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum }) =
 
             phonebookServices.create(personObj)
             setPersons(persons.concat(personObj))
+            setNoError(true)
+            setNotification(`Added ${newName} to the phonebook`)
         } else {
           if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
             const personObj = {...result, number: newNum}
@@ -21,8 +23,13 @@ const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum }) =
               ? person
               : {...person, number: newNum})
             )
+            setNoError(true)
+            setNotification(`Updated ${newName}'s number in the phonebook`)
           }
         }  
+
+        setTimeout(() => {setNotification(null)}, 3000)
+        setTimeout(() => {setNoError(false)}, 3000)
         setName('')
         setNum('')
       }
