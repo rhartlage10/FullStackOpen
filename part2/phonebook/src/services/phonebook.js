@@ -13,10 +13,15 @@ const deletePerson = id => {
     return axios.delete(`${baseUrl}/${id}`)
 }
 
-const exportedObj = {
-    getAll,
-    create,
-    deletePerson
+const updatePerson = personObj => {
+    return axios.put(`${baseUrl}/${personObj.id}`, personObj).then(response => response.data)
 }
 
-export default exportedObj
+const phonebookServices = {
+    getAll,
+    create,
+    deletePerson, 
+    updatePerson
+}
+
+export default phonebookServices
