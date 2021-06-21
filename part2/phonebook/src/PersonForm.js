@@ -19,17 +19,26 @@ const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum, set
             const personObj = {...result, number: newNum}
 
             phonebookServices.updatePerson(personObj)
-            setPersons(persons.map(person => person.id !== personObj.id
-              ? person
-              : {...person, number: newNum})
-            )
-            setNoError(true)
-            setNotification(`Updated ${newName}'s number in the phonebook`)
+            .then (response => {
+              setPersons(persons.map(person => person.id !== personObj.id
+                ? person
+                : {...person, number: newNum})
+              )
+              setNoError(true)
+              setNotification(`Updated ${newName}'s number in the phonebook`)
+            })
+            .catch(error => {
+                setNoError(false)
+                setNotification(`Information of ${newName} has already been removed from the server`)
+
+              // Don't include person already removed
+              setPersons(persons.filter(person => person.id !== personObj.id))
+            })
           }
         }  
 
-        setTimeout(() => {setNotification(null)}, 3000)
-        setTimeout(() => {setNoError(false)}, 3000)
+        setTimeout(() => {setNoError(false)}, 5000)
+        setTimeout(() => {setNotification(null)}, 5000)
         setName('')
         setNum('')
       }
@@ -42,6 +51,7 @@ const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum, set
       }
 
       return (
+        // add person name/number and submit button
         <form onSubmit={addPerson}>
             <div>name: 
                 <input value={newName} onChange={handleNameChange}/>
