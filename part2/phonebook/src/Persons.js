@@ -9,8 +9,8 @@ const Persons = ({ persons, filter }) => {
     return (
         <div>
             {filter.length === 0 
-                ? persons.map(person =>  <Person key={person.name} name={person.name} num={person.num} />)
-                : filtered.map(person => <Person key={person.name} name={person.name} num={person.num} />)}
+                ? persons.map(person =>  <Person key={person.name} name={person.name} num={person.number} />)
+                : filtered.map(person => <Person key={person.name} name={person.name} num={person.number} />)}
         </div>
     )
 }

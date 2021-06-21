@@ -1,13 +1,14 @@
 import React from 'react'
+import axios from 'axios'
 
-const PersonForm = ({ persons, setPersons, newName, setNewName, newNum, setNewNum }) => {
+const PersonForm = ({ persons, setPersons, newName, setName, newNum, setNum }) => {
     const addPerson = (event) => {
         let nameAlreadyAdded = false
     
         event.preventDefault();
         const personObj = {
           name: newName,
-          num: newNum
+          number: newNum
         }
     
         let i = 0;
@@ -20,16 +21,20 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newNum, setNewNu
     
         if (nameAlreadyAdded === false) {
           setPersons(persons.concat(personObj))
-          setNewName('')
-          setNewNum('')
+
+          axios.post('http://localhost:3001/persons', personObj)
+          .then(response => {console.log(response.data)})
+
+          setName('')
+          setNum('')
         }
       }
     
       const handleNameChange = (event) => {
-        setNewName(event.target.value)
+        setName(event.target.value)
       }
       const handleNumChange = (event) => {
-        setNewNum(event.target.value)
+        setNum(event.target.value)
       }
 
       return (
