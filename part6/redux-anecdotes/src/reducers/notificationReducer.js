@@ -1,7 +1,9 @@
-const reducer = (state = 'Initial Notification Message', action) => {
+const reducer = (state = '', action) => {
     switch(action.type) {
         case 'NOTIFY':
           return state = action.message
+        case 'RESET':
+            return state = ''
         default:
             return state
     }
@@ -11,6 +13,12 @@ const reducer = (state = 'Initial Notification Message', action) => {
     return {
         type: 'NOTIFY',
         message: message
+    }
+  }
+
+  export const reset = () => {
+    return {
+        type: 'RESET'
     }
   }
  
