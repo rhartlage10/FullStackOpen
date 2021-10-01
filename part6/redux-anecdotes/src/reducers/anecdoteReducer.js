@@ -29,10 +29,13 @@ export const voteAnecdote = (id) => {
   }
 }
 
-export const createAnecdote = (anecdote) => {
-  return {
-    type: 'NEW_ANECDOTES',
-    data: anecdote
+export const createAnecdote = (content) => {
+  return async dispatch => {
+    const anecdote = await anecdoteService.createNew(content)
+    dispatch ({
+      type: 'NEW_ANECDOTES',
+      data: anecdote
+    })
   }
 }
 
