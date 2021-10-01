@@ -22,10 +22,13 @@ const reducer = (state = [], action) => {
   }
 }
 
-export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id }
+export const voteAnecdote = (anecdote) => {
+  return async dispatch => {
+    const response = await anecdoteService.addVote(anecdote)
+    dispatch({
+      type: 'VOTE',
+      data: response
+    })
   }
 }
 
@@ -41,10 +44,12 @@ export const createAnecdote = (content) => {
 
 export const initAnecdotes = () => {
   return async dispatch => {
-    const anecdotes  = await anecdoteService.getAll()
-    dispatch({ 
+    const anecdotes = await anecdoteService.getAll()
+
+    const sort = anecdotes.sort((a, b) => b.votes - a.votes)
+    dispatch({
       type: 'INIT_ANECDOTES',
-      data: anecdotes
+      data: sort
     })
   }
 }

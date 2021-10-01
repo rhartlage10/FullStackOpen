@@ -15,11 +15,11 @@ const App = () => {
 
   return (
     <div>
-      <Notification />
-      <Filter />
+      <Notification/>
+      <Filter/>
       <h2>Anecdotes</h2>
-      <AnecdoteList />
-      <AnecdoteForm />
+      <AnecdoteList/>
+      <AnecdoteForm/>
     </div>
   )
 }

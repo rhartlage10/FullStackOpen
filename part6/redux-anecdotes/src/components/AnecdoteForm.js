@@ -1,10 +1,10 @@
 import React from 'react'
 import { createAnecdote } from '../reducers/anecdoteReducer'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { notify, reset } from '../reducers/notificationReducer'
+import connectedFilter from './Filter'
 
- const AnecdoteForm = () => {
-    const dispatch = useDispatch()
+ const AnecdoteForm = (props) => {
 
     const addAnecdote = async (event) => {
        event.preventDefault()
@@ -12,9 +12,8 @@ import { notify, reset } from '../reducers/notificationReducer'
        const content = event.target.content.value
        event.target.content.value = ''
 
-       dispatch(createAnecdote(content))
-       dispatch(notify(`you created the note: "${ content }"`))
-       setTimeout(() => { dispatch(reset()) }, 5000)
+       props.createAnecdote(content)
+       props.notify(`you created the note: "${ content }"`, 5)
     }
 
     return (
@@ -26,4 +25,6 @@ import { notify, reset } from '../reducers/notificationReducer'
     )
 }
 
-export default AnecdoteForm
+const connectedForm = connect(null, { createAnecdote, notify })(AnecdoteForm)
+
+export default connectedForm
